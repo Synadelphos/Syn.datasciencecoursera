@@ -1,0 +1,187 @@
+  ##basics##
+
+<- is an assignment operator
+  e.g. x <- 1 means that x = 1
+    note that x is a 1 element numeric vector
+    msg <- "hello" means that msg is equal to hello
+    must complete an expression form is x <- (your expression without      parenthesis)
+the double pound symbol ## denotes a comment in r
+enter a sequence of numbers with a colon with the format x <- a:b        means that it assigns the value of x, a through b.
+
+R is object based and everything in R is an object.
+  the object categories are:
+
+  character
+  numeric (real numbers)
+  integer
+  complex
+  logical (true/false)
+  
+  
+  
+  
+    ##Objects##
+  
+  
+  The most basic object is a vector.
+    A vector can only contain objects of the same class
+      but: lists are an exception and can contain different objects, i         .e. each element of the list can be a diff object.
+    empty vectors can be created with the vector() function.
+  
+  Vector function has 2 arguments (class, length)
+    e.g. vector("numeric", length = 10)
+    
+numbers in R are numeric objects (double precision real number)
+  if you want an integer you need to use the Lsuffix
+    thus 1 is a numeric object while 1L is an integer
+    infinity is a special number represented by Inf such as 1/Inf
+    NaN represents an undefined number or missing value
+    
+R objects can have attributes
+  the attributes are:
+    names, dimnames
+    dimensions
+    class
+    length
+    other user-defined
+      attributes of an object can be accessed using the attributes()           function
+      
+      
+You can convert one object to another with the as function.
+  e.g. 
+  x <- 0:6   is an integer function you can convert it to a numeric function with
+  as.numeric(x)
+
+
+  ##vectors##
+  
+    List of vector functions. All vector functions can be created with  function in this format c(a, b)
+    
+      numeric x <- c(0.5, 0.6)
+      logical x <- c(TRUE, FALSE)
+      CHARACTER <- c("a", "b", "c")
+      integer <- c(9:29)
+      complex <- c(1+0i, 2+4i)
+
+      vector function is vector()
+        x <- vector("numeric", length = 10)
+        
+A matrix is a special type of vector with dimensions
+
+  e.g.m <- matrix (nrow = 2, ncol = 3)
+  matrices are constructed by column (vertically)
+  
+  if you add the dimension attribute to a vector you can create a dimensino
+  dim(m)<- c(2, 5)
+  
+  can also create a matrix with cbind and rbind
+  x <- 1:13
+  y <- 10:12
+  
+  cbind (x, y) creates a standard matrix of x and y indexed by column
+  rbind (x, y) creates a matrix for which the elements are indexed by row (1, 2, 3)
+  
+  you can name the elements of your matrix with format
+  dimnames(m) <- list(c("a", "b"), c("c", "d")) and this will name the elements in the order they are assigned so if     you go row column then you'll have row a, b and column c, d. If you go column row then you'll have column a, b       and row c, d.
+  
+  names(x) can be used to name the elements of a vector so you could have an element with
+    names(x) <- c("todd", "dick", "harry")
+    this would assign the values 1, 2, and 3 the names todd, dick, and harry
+  
+  ##List##
+List entries are printed with the index label in double brackets so index 1 is [[1]]
+  lists can hold objects of different classes
+  a list can be given names thus a list of 1, 2, and 3  could be given names a, b, c with this format
+    x <- list(a = 1, b = 2, c = 3)
+  
+        
+        
+  ##Factors##
+  
+for categorical data, storing ordered data with labels ie such as a ranking. unordered data would be labeled for instance as male, female.
+
+  the factor function is x<- factor(c("yes", "yes", "no", "yes", "no"))
+  
+  this prints out to 
+  [1] yes yes no yes no
+  Levels: no yes
+        
+  table(x) will print the frequency count of the levels
+  
+  unclass(x) will strip the class and turns it into an unlabled integer vector
+  
+  you can set the levels with the levels function
+  levels = c("yes", "no")
+    levels are set by R in alfabetical order the levels function can be used to change that
+    
+    ##Data Frames##
+    
+Used for tabular data
+  represented of a special list where every element of the list has the same length but does not need to be
+    the same type
+  special attribute row.name, every row has a name
+  they are created by calling read.table() or read.csv()
+  can create a matrix from a dataframe with data.matrix()
+    basic format:
+      x <- data.frame(foo = 1:4, bar = c(T, T, F, F))
+        This creates a data fram with 1 column and 4 rows represented by the 1 to 4. The column is named foo and the           rows are named bar
+        
+        
+        
+   ##reading stored data##
+   
+these functions can read data from stored text files and the analagous write function.
+  tabluar data
+    read.table / write.table
+    read.csv 
+    
+  reading lines of a file
+    readLines / writeLines
+    
+  reading R code files
+    source/dump
+    
+  reading R code files
+    dget/dput
+    
+  reading saved workspace
+    load/save
+    
+  reading single R objects in binary form
+    unserialize/serialize
+    
+              command line function arguments
+                read.table
+                file
+                  name of a file or connection
+                header
+                  logical indicating if the file has a heaer line
+                sep
+                  a string indicating how the columns are separated
+                colClasses
+                  a character vector indicating the class of each column in the dataset
+                nrows
+                  the number of rows in a dataset
+                comment.char
+                  a character string indicating the comment character
+                skip
+                  the number of ines to skip from the beginning
+                stringAsFactors
+                  should character variables be coded as factors?
+                  
+                example:
+                read.table(stringAsFactors = False)
+                
+                
+      use colClasses to assign the data type of each column which makes R run much faster with big data sets.
+        
+        easy way to determine the class of each object column is the following block of code:
+            initial <- read.table("datatable.txt", nrwos = 100)
+            classes <-sapply(initial, class)
+            tabAll <-read.table("datatable.txt", colClasses = classes)
+      
+      dump and dput      
+        dump and dput retain metadata
+        format dput(file = "y.R")
+          dput(file ="filename")
+        
