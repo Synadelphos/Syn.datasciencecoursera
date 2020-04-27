@@ -1,0 +1,4 @@
+          ##loops##
+          
+seq_along(x) creates a sequence of length x. (similar to .length)
+seq_len(nrwo(x)) and seq_len(ncol(x)) can be used to set the loop the length of the row or column

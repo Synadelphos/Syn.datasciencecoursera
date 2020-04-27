@@ -87,6 +87,19 @@ A matrix is a special type of vector with dimensions
   names(x) can be used to name the elements of a vector so you could have an element with
     names(x) <- c("todd", "dick", "harry")
     this would assign the values 1, 2, and 3 the names todd, dick, and harry
+    
+    Parallel Operations
+      vectors operate in parallel
+        if you have x <-1:4; y <- 6:9
+          x+y will add the element of each vector to the matching element in the other vector
+          so the output here will be 7 9 11 and 13
+             x*y will also be parallel
+             x/y is also parallel
+       You can use less than, greater than and equals equals to return a logical output of the vectors  
+        x > 2 will output F F T T
+      Matrix will do operations element by element unless you use a special matrix operand
+        %*% will multiply the matrix by the matrix 
+     
   
   ##List##
 List entries are printed with the index label in double brackets so index 1 is [[1]]
@@ -168,9 +181,37 @@ these functions can read data from stored text files and the analagous write fun
                   the number of ines to skip from the beginning
                 stringAsFactors
                   should character variables be coded as factors?
-                  
+                
                 example:
                 read.table(stringAsFactors = False)
+                
+                file function
+                
+                file
+                  opens a file or connection
+                    args
+                      r = read only
+                      w = writing
+                      a = appending
+                      rb, wb, or ab = reading, writing or appending in binary mode
+                      
+                      example connection code block:
+                        con <- file("foo.txt", "r")
+                        data <- read.csv(con)
+                        close(con)
+                        
+                        this is equivalent to:
+                          data <- read.csv("foo.txt")
+                          
+                          
+  
+                gzfile
+                  opens a connection to a file compressed with gzip
+                bzfile
+                  opens a connection to a file compressed with bzip2
+                url
+                  opens a webpage connection
+                  
                 
                 
       use colClasses to assign the data type of each column which makes R run much faster with big data sets.
@@ -185,3 +226,53 @@ these functions can read data from stored text files and the analagous write fun
         format dput(file = "y.R")
           dput(file ="filename")
         
+        
+              ##Subsetting##
+        
+    Subset operands:
+        [] return an object of the same class as the original, can select more than one element
+        [[]] extract elements of a list or data frame, can only extract a single element and the class of returned                 object is not guaranteed to be the same as the list or data frame
+        $     is used to extract elements of a list or data frame by name.
+        
+    example code:
+      numerical index
+        we have the vector <-c("a", "b", "c")
+          x[1] will print the first element with it's index so [1]"a"
+            sequence format x[1:3]
+            
+            logical extraction
+              x[x > "a"]
+                this code outputs b c because those are the letters that are greater than a
+              you can also assign this vector to a new variable and print and it will give a boolean return
+                u <- x > "a"
+                  this prints false true true
+              if you then subset u with x; u[x]
+                you get the elements greater than a; so b and c
+                
+    Matrix
+      drop = false preserves the matrix formatting
+    
+    
+    Operand Quirks
+    $ sign can be used for partial matching
+      if you have x <- list(aardvark = 1:5)
+        then x$a will retrieve the first object matching it, which in this case is aardvark returning 1 through 5.
+    [[]] is an exact match and it wno't work with  x[["a"]]
+      if you add the argument a x[["a", exact = false]] it will then partial match and return aardvark
+      
+      
+Removing missing values:
+  bad <- is.na(x)
+  the is.na here is the function we're using
+    x[!bad]
+    this outputs the existing elements
+  complete cases function
+    x <- c(1, 2, NA, 4, NA, 5)
+    Y <- C("a", "b" NA, "d", NA, "f")
+    good <- complete.cases(x, y)
+      this will tell you which of the two vectors which positions are there that are both non-missing
+      in this case it returns 1245 and abdf
+    can use complete cases to subset out rows with missing values
+      good <-complete.cases(dataframe)
+        this will only return the rows without missing data.
+              
